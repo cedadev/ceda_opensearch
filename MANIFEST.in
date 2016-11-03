@@ -1,0 +1,7 @@
+include LICENSE
+recursive-include docs *
+recursive-include ceda_opensearch/templates *
+recursive-include ceda_opensearch/resources *
+
+exclude ceda_opensearch/local_settings.py
+include ceda_opensearch/local_settings.py.ini
