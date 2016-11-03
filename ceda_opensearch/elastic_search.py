@@ -305,8 +305,8 @@ def _get_geo_query(context):
             inner_ring = rings[3].split(')')[0]
         else:
             inner_ring = None
-    except ValueError:
-        raise Http400("Invalid polygon WKT format")
+    except (ValueError, IndexError):
+        raise Http400("Invalid polygon WKT format, {}".format(geometry))
     polygon = []
     polygon.append(get_coordinate_list(outer_ring))
     if inner_ring is not None:
