@@ -42,7 +42,7 @@ from ceda_markup.opensearch import OSAtomResponse, OSJsonResponse, OSParam, \
 from ceda_opensearch.constants import CEDA_NAMESPACE, EO_NAMESPACE, \
     GEO_NAMESPACE, DCT_NAMESPACE, CEDA_PREFIX, EO_PREFIX, \
     GEO_PREFIX, DCT_PREFIX, TIME_NAMESPACE, TIME_PREFIX, OS_PATH, \
-    COUNT_DEFAULT, PARAM_PREFIX, PARAM_NAMESPACE, OPT_NAMESPACE, OPT_PREFIX
+    COUNT_DEFAULT, PARAM_PREFIX, PARAM_NAMESPACE
 from ceda_opensearch.elastic_search import get_search_results
 from ceda_opensearch.helper import get_index, get_mime_type, \
     import_count_and_page
@@ -366,11 +366,11 @@ class COSQuery(OSQuery):
                               namespace_prefix=EO_PREFIX,
                               default=''))
         params.append(OSParam("minCloudCoverPercentage",
-                              "cloudCoverPercentage", namespace=OPT_NAMESPACE,
-                              namespace_prefix=OPT_PREFIX, default=''))
+                              "cloudCover", namespace=EO_PREFIX,
+                              namespace_prefix=EO_PREFIX, default=''))
         params.append(OSParam("maxCloudCoverPercentage",
-                              "cloudCoverPercentage", namespace=OPT_NAMESPACE,
-                              namespace_prefix=OPT_PREFIX, default=''))
+                              "cloudCover", namespace=EO_PREFIX,
+                              namespace_prefix=EO_PREFIX, default=''))
         params.append(OSParam("mission", "mission",
                               namespace=CEDA_NAMESPACE,
                               namespace_prefix=CEDA_PREFIX,

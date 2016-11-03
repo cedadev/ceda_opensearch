@@ -85,6 +85,7 @@ class helper(OSEngineHelper):
         @param req_doc: a request OpenSource document
 
         """
+        # Sentinel 1
         markup = createMarkup('Query', OS_PREFIX, OS_NAMESPACE, req_doc)
         markup.set("role", "example")
         markup.set("dataFormat", "SAFE")
@@ -98,6 +99,7 @@ class helper(OSEngineHelper):
         markup.set("sensorMode", "EW")
         req_doc.append(markup)
 
+        # Sentinel 2
         markup = createMarkup('Query', OS_PREFIX, OS_NAMESPACE, req_doc)
         markup.set("role", "example")
         markup.set("dataFormat", "SAFE")
@@ -138,6 +140,7 @@ class helper(OSEngineHelper):
         markup.set("geometry", "POLYGON((30%2010,40%2040,20%2040,10%2020,"
                    "30%2010)(29%2011,29%2028,11%2021,29%2011))")
         req_doc.append(markup)
+
         # Sentinel 1 specific
         markup = createMarkup('Query', OS_PREFIX, OS_NAMESPACE, req_doc)
         markup.set("role", "example")

@@ -54,9 +54,6 @@ GEO_PREFIX = 'geo'
 OM_NAMESPACE = 'http://www.opengis.net/om/2.0'
 OM_PREFIX = 'om'
 
-OPT_NAMESPACE = 'http://www.opengis.net/opt/2.1'
-OPT_PREFIX = 'opt'
-
 OWS_NAMESPACE = 'http://www.opengis.net/ows/2.0'
 OWS_PREFIX = 'ows'
 
