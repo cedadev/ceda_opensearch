@@ -80,9 +80,9 @@ class OpenSearch(View):
             return HttpResponse(response, content_type=get_mime_type(iformat))
         except Http400 as ex:
             LOGGING.debug(ex.message)
-            return HttpResponseBadRequest(ex.message)
+            return HttpResponseBadRequest(reason=ex.message)
         except Http503 as ex:
-            return ServiceUnavailable(ex.message)
+            return ServiceUnavailable(reason=ex.message)
 
     def options(self, request, iformat):
         """
