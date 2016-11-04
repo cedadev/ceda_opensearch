@@ -1,6 +1,10 @@
 # CEDA Opensearch
 This package provides an open search interface to CEDAs elastic search, which currently provides Sentinel 1A and 2A data.
 
+## Open search description document
+
+The [open search description document](http://opensearch-test.ceda.ac.uk/opensearch/description.xml) contains details about the supported parameters and their values. Below is a more human readable form of the search parameters.
+
 ## Search Parameters common to Sentinel 1 and 2
 
 * [bbox](http://www.opensearch.org/Specifications/OpenSearch/Extensions/Geo/1.0/Draft_2#The_.22box.22_parameter)
