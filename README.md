@@ -137,3 +137,9 @@ http://opensearch-test.ceda.ac.uk/opensearch/atom?platform=sentinel-2A&maxCloudC
 
 http://opensearch-test.ceda.ac.uk/opensearch/atom?platform=sentinel-2A&minCloudCoverPercentage=40&maxCloudCoverPercentage=50
 
+
+## Limitations
+
+### Pagination
+
+It is only possible to page through the first 10,000 results. This is due to limitations in the underlying elastic search. See [Deep Paging in Distributed Systems](https://www.elastic.co/guide/en/elasticsearch/guide/current/pagination.html) for an explanation.
