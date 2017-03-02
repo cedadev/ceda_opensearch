@@ -1,4 +1,5 @@
 include LICENSE
+include README.md
 recursive-include docs *
 recursive-include ceda_opensearch/templates *
 recursive-include ceda_opensearch/resources *
