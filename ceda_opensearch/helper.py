@@ -31,7 +31,10 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 """
 
 import mimetypes
+from posixpath import join as path_urljoin
 import socket
+from urllib.parse import urljoin, urlparse
+from urllib.parse import urlsplit, urlunsplit
 
 from ceda_opensearch.constants import COUNT_DEFAULT, COUNT_MAX, \
     START_PAGE_DEFAULT, OS_DESCRIPTION, OS_DESCRIPTION_TYPE, \
@@ -139,3 +142,8 @@ def import_count_and_page(context):
         ret.append(START_PAGE_DEFAULT)
 
     return tuple(ret)
+
+
+def urljoin_path(site, path):
+    segments = [s for s in path.split('/') if s]
+    return urljoin(site, path_urljoin(urlparse(site).path, *segments))

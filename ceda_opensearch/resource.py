@@ -32,6 +32,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 import json
 import logging
+import os
 from xml.dom import minidom
 from xml.etree.ElementTree import tostring
 
@@ -41,6 +42,7 @@ from ceda_opensearch.constants import EOP_PREFIX, EOP_NAMESPACE, OM_PREFIX,\
     XSI_PREFIX, SCHEMA_LOCATION, XSI_NAMESPACE, GML_PREFIX, GML_NAMESPACE,\
     SAR_NAMESPACE, SAR_PREFIX
 from ceda_opensearch.elastic_search import get_search_results
+from ceda_opensearch.helper import urljoin_path
 from ceda_opensearch.settings import FTP_SERVER, PYDAP_SERVER
 
 
@@ -377,10 +379,10 @@ def _add_acquisitionParameters(root, parent, result):
 
 def _add_result(root, result):
     try:
-        file_name = result.file.path
-        file_size = str(result.file.size)
+        file_name = os.path.join(result.file.directory, result.file.data_file)
+        file_size = str(result.file.data_file_size)
     except AttributeError:
-        LOGGING.debug('file.path not found')
+        LOGGING.debug('file.directory or file.data_file not found')
         return
     result_ = createMarkup('result', OM_PREFIX, OM_NAMESPACE, root)
     root.append(result_)
@@ -390,8 +392,10 @@ def _add_result(root, result):
     EarthObservationResult.set('{}:id'.format(GML_PREFIX), _get_id())
     result_.append(EarthObservationResult)
 
-    _add_product(root, EarthObservationResult, file_name, 'ftp', file_size)
-    _add_product(root, EarthObservationResult, file_name, 'pydap', file_size)
+    if result.file.location == "on_disk":
+        _add_product(root, EarthObservationResult, file_name, 'ftp', file_size)
+        _add_product(root, EarthObservationResult, file_name, 'pydap',
+                     file_size)
 
 
 def _add_product(root, parent, file_name, link_type, file_size):
@@ -410,14 +414,11 @@ def _add_product(root, parent, file_name, link_type, file_size):
     ServiceReference = createMarkup(
         'ServiceReference', OWS_PREFIX, OWS_NAMESPACE, root)
 
-    if not file_name.startswith('/'):
-        file_name = '/{}'.format(file_name)
-
     if link_type == 'ftp':
-        data_url = ('{ftp}{path}'.format(ftp=FTP_SERVER, path=file_name))
+        data_url = urljoin_path(FTP_SERVER, file_name)
         ServiceReference.set('{}:href'.format(XLINK_PREFIX), data_url)
     else:
-        data_url = ('{pydap}{path}'.format(pydap=PYDAP_SERVER, path=file_name))
+        data_url = urljoin_path(PYDAP_SERVER, file_name)
         ServiceReference.set('{}:href'.format(XLINK_PREFIX), data_url)
 
     ServiceReference.set('{}:title'.format(XLINK_PREFIX), link_type)

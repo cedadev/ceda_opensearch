@@ -32,6 +32,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 import datetime
 import logging
+import os
 
 from ceda_markup.atom.atom import ATOM_NAMESPACE, ATOM_PREFIX, createID, \
     createUpdated, createPublished, createEntry, createLink
@@ -45,7 +46,7 @@ from ceda_opensearch.constants import CEDA_NAMESPACE, EO_NAMESPACE, \
     COUNT_DEFAULT, PARAM_PREFIX, PARAM_NAMESPACE
 from ceda_opensearch.elastic_search import get_search_results
 from ceda_opensearch.helper import get_index, get_mime_type, \
-    import_count_and_page
+    import_count_and_page, urljoin_path
 from ceda_opensearch.settings import ELASTIC_INDEX, FTP_SERVER, PYDAP_SERVER
 
 
@@ -162,12 +163,36 @@ class COSAtomResponse(OSAtomResponse):
             entry.append(createLink(json_uri, 'alternate',
                                     get_mime_type('json'), atomroot))
 
-            file_name = subresult.file.path
-            if not file_name.startswith('/'):
-                file_name = '/{}'.format(file_name)
-            file_name_bits = file_name.split('.')
-            file_type = file_name_bits[-1]
-            file_base = file_name_bits[0]
+            directory = subresult.file.directory
+
+            # only include the data file if it is on disk
+            if subresult.file.location == "on_disk":
+                # data file
+                file_name = subresult.file.data_file
+                full_path = os.path.join(directory, file_name)
+                file_type = file_name.split('.')[-1]
+                try:
+                    mime_type = get_mime_type(file_type)
+                except KeyError:
+                    LOGGING.warn(
+                        'Unable to discover mime type for {}'.
+                        format(file_type))
+                    mime_type = None
+
+                # add data links
+                data_url = urljoin_path(FTP_SERVER, full_path)
+                link = createLink(data_url, 'enclosure', mime_type, atomroot)
+                link.set('title', 'ftp')
+                entry.append(link)
+                data_url = urljoin_path(PYDAP_SERVER, full_path)
+                link = createLink(data_url, 'enclosure', mime_type, atomroot)
+                link.set('title', 'pydap')
+                entry.append(link)
+
+            # metadata
+            file_name = subresult.file.metadata_file
+            full_path = os.path.join(directory, file_name)
+            file_type = file_name.split('.')[-1]
             try:
                 mime_type = get_mime_type(file_type)
             except KeyError:
@@ -175,30 +200,43 @@ class COSAtomResponse(OSAtomResponse):
                     'Unable to discover mime type for {}'.format(file_type))
                 mime_type = None
 
-            # add data links
-            data_url = ('{ftp}{path}'.format(ftp=FTP_SERVER, path=file_name))
-            link = createLink(data_url, 'enclosure', mime_type, atomroot)
+            # add metadata links
+            data_url = urljoin_path(FTP_SERVER, full_path)
+            link = createLink(data_url, 'via', mime_type, atomroot)
             link.set('title', 'ftp')
             entry.append(link)
-            data_url = (
-                '{pydap}{path}'.format(pydap=PYDAP_SERVER, path=file_name))
-            link = createLink(data_url, 'enclosure', mime_type, atomroot)
+            data_url = urljoin_path(PYDAP_SERVER, full_path)
+            link = createLink(data_url, 'via', mime_type, atomroot)
             link.set('title', 'pydap')
             entry.append(link)
 
-            # add browse image. For now just for sentinel 1
-            if 'sentinel1a' in file_base:
-                browse_url = (
-                    '{ftp}{path}.png'.format(ftp=FTP_SERVER, path=file_base))
-                link = createLink(browse_url, 'icon', 'image/png', atomroot)
-                link.set('title', 'ftp')
-                entry.append(link)
-                browse_url = (
-                    '{pydap}{path}.png'.format(pydap=PYDAP_SERVER,
-                                               path=file_base))
-                link = createLink(browse_url, 'icon', 'image/png', atomroot)
-                link.set('title', 'pydap')
-                entry.append(link)
+            # Add quick look
+            try:
+                file_name = subresult.file.quicklook_file
+                if file_name != "":
+                    full_path = os.path.join(directory, file_name)
+                    file_type = file_name.split('.')[-1]
+                    try:
+                        mime_type = get_mime_type(file_type)
+                    except KeyError:
+                        LOGGING.warn(
+                            'Unable to discover mime type for {}'.
+                            format(file_type))
+                        mime_type = None
+
+                    browse_url = urljoin_path(FTP_SERVER, full_path)
+                    link = createLink(
+                        browse_url, 'icon', mime_type, atomroot)
+                    link.set('title', 'ftp')
+                    entry.append(link)
+                    browse_url = urljoin_path(PYDAP_SERVER, full_path)
+                    link = createLink(
+                        browse_url, 'icon', mime_type, atomroot)
+                    link.set('title', 'pydap')
+                    entry.append(link)
+            except AttributeError:
+                # no quick look
+                pass
 
             entries.append(entry)
 
