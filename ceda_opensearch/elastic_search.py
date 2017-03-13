@@ -33,7 +33,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 import datetime
 import logging
 
-from elasticsearch.exceptions import ConnectionError
+from elasticsearch.exceptions import ConnectionError, TransportError
 from elasticsearch_dsl import Search
 
 from ceda_opensearch.errors import Http400, Http503
@@ -124,6 +124,13 @@ def get_search_results(context):
         LOGGING.error("ConnectionError while connecting to the elastic search "
                       "service")
         raise Http503("Error while connecting to the elastic search service")
+    except TransportError as ex:
+        if 'invalid_shape_exception' in str(ex):
+            msg = str(ex).split('invalid_shape_exception: ')[1].split("'")[0]
+            raise Http400(msg)
+        LOGGING.error("TransportError while connecting to the elastic search "
+                      "service. {}".format(ex))
+        raise (ex)
 
     LOGGING.debug("get_search_results returning %s hits out of %s",
                   len(response.hits), response.hits.total)

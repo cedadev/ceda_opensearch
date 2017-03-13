@@ -80,7 +80,11 @@ class OpenSearch(View):
             return HttpResponse(response, content_type=get_mime_type(iformat))
         except Http400 as ex:
             LOGGING.debug(ex.message)
-            return HttpResponseBadRequest(reason=ex.message)
+            if 'text/html' in request.META.get('HTTP_ACCEPT'):
+                context={'message':ex.message}
+                return render_to_response('400.html', context, status=400)
+            else:
+                return HttpResponseBadRequest(reason=ex.message)
         except Http503 as ex:
             return ServiceUnavailable(reason=ex.message)
 
