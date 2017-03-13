@@ -85,6 +85,41 @@ class helper(OSEngineHelper):
         @param req_doc: a request OpenSource document
 
         """
+        # Landsat 5
+        markup = createMarkup('Query', OS_PREFIX, OS_NAMESPACE, req_doc)
+        markup.set("role", "example")
+        markup.set("dataFormat", "geoTIFF")
+        markup.set("instrument", "TM")
+        markup.set("mission", "landsat")
+        markup.set("platform", "landsat-5")
+        markup.set("sensorMode", "SAM")
+        markup.set("minCloudCoverPercentage", "30")
+        markup.set("maxCloudCoverPercentage", "40")
+        req_doc.append(markup)
+
+        # Landsat 7
+        markup = createMarkup('Query', OS_PREFIX, OS_NAMESPACE, req_doc)
+        markup.set("role", "example")
+        markup.set("dataFormat", "geoTIFF")
+        markup.set("instrument", "ETM")
+        markup.set("mission", "landsat")
+        markup.set("platform", "landsat-7")
+        markup.set("sensorMode", "SAM")
+        markup.set("minCloudCoverPercentage", "30")
+        markup.set("maxCloudCoverPercentage", "40")
+        req_doc.append(markup)
+
+        # Landsat 8
+        markup = createMarkup('Query', OS_PREFIX, OS_NAMESPACE, req_doc)
+        markup.set("role", "example")
+        markup.set("dataFormat", "geoTIFF")
+        markup.set("instrument", "OLI_TIRS")
+        markup.set("mission", "landsat")
+        markup.set("platform", "landsat-8")
+        markup.set("minCloudCoverPercentage", "30")
+        markup.set("maxCloudCoverPercentage", "40")
+        req_doc.append(markup)
+
         # Sentinel 1
         markup = createMarkup('Query', OS_PREFIX, OS_NAMESPACE, req_doc)
         markup.set("role", "example")
@@ -97,6 +132,7 @@ class helper(OSEngineHelper):
         markup.set("productType", "GRD")
         markup.set("resolution", "M")
         markup.set("sensorMode", "EW")
+        markup.set("polarisationChannels", "HH")
         req_doc.append(markup)
 
         # Sentinel 2
@@ -106,11 +142,13 @@ class helper(OSEngineHelper):
         markup.set("instrument", "MSI")
         markup.set("mission", "sentinel-2")
 #         markup.set("orbitDirection", "ascending")
-        markup.set("orbitNumber", "005790")
+        markup.set("orbitNumber", "000062")
         markup.set("platform", "sentinel-2A")
 #         markup.set("productType", "")
 #         markup.set("resolution", "10")
         markup.set("sensorMode", "INS-NOBS")
+        markup.set("minCloudCoverPercentage", "10")
+        markup.set("maxCloudCoverPercentage", "20")
         req_doc.append(markup)
 
         markup = createMarkup('Query', OS_PREFIX, OS_NAMESPACE, req_doc)
@@ -139,21 +177,6 @@ class helper(OSEngineHelper):
         markup.set("role", "example")
         markup.set("geometry", "POLYGON((30%2010,40%2040,20%2040,10%2020,"
                    "30%2010)(29%2011,29%2028,11%2021,29%2011))")
-        req_doc.append(markup)
-
-        # Sentinel 1 specific
-        markup = createMarkup('Query', OS_PREFIX, OS_NAMESPACE, req_doc)
-        markup.set("role", "example")
-        markup.set("platform", "sentinel-1A")
-        markup.set("polarisationChannels", "HH")
-        req_doc.append(markup)
-
-        # Sentinel 2 specific
-        markup = createMarkup('Query', OS_PREFIX, OS_NAMESPACE, req_doc)
-        markup.set("role", "example")
-        markup.set("platform", "sentinel-2A")
-        markup.set("minCloudCoverPercentage", "30")
-        markup.set("maxCloudCoverPercentage", "40")
         req_doc.append(markup)
 
         return req_doc

@@ -1,11 +1,11 @@
 # CEDA Opensearch
-This package provides an open search interface to CEDAs elastic search, which currently provides Sentinel 1A and 2A data.
+This package provides an open search interface to CEDAs elastic search, which currently provides Landsat 5, 7 and 8 data (all limited in geographic scope) and Sentinel 1A and 2A data.
 
 ## Open search description document
 
 The [open search description document](http://opensearch-test.ceda.ac.uk/opensearch/description.xml) contains details about the supported parameters and their values. Below is a more human readable form of the search parameters.
 
-## Search Parameters common to Sentinel 1 and 2
+## Search Parameters common to Landsat and Sentinel
 
 * [bbox](http://www.opensearch.org/Specifications/OpenSearch/Extensions/Geo/1.0/Draft_2#The_.22box.22_parameter)
 * dataFormat
@@ -15,25 +15,38 @@ The [open search description document](http://opensearch-test.ceda.ac.uk/opensea
 * [maximumRecords](http://www.opensearch.org/Specifications/OpenSearch/1.1#The_.22count.22_parameter)
 * mission
 * name
-* [orbitNumber](http://portal.opengeospatial.org/files/65168)
 * [platform](http://portal.opengeospatial.org/files/65168)
-* [sensorMode](http://portal.opengeospatial.org/files/65168)
 * [startDate](http://www.opensearch.org/Specifications/OpenSearch/Extensions/Time/1.0/Draft_1#The_.22start.22_and_.22end.22_parameters)
 * [startPage](http://www.opensearch.org/Specifications/OpenSearch/1.1#The_.22startPage.22_parameter)
 * [startRecord](http://www.opensearch.org/Specifications/OpenSearch/1.1#The_.22startIndex.22_parameter)
 * [uid](http://www.opensearch.org/Specifications/OpenSearch/Extensions/Geo/1.0/Draft_2#The_.22uid.22_parameter)
 
-## Search parameters currently specific to Sentinel 1
-
-* [orbitDirection](http://portal.opengeospatial.org/files/65168)
-* [polarisationChannels](http://portal.opengeospatial.org/files/65168)
-* [productType](http://portal.opengeospatial.org/files/65168)
-* [resolution](http://portal.opengeospatial.org/files/65168)
-
-## Search parameters specific to Sentinel 2
+## Additional search parameters for Landsat 5 and 7
 
 * [maxCloudCoverPercentage](http://portal.opengeospatial.org/files/65168)
 * [minCloudCoverPercentage](http://portal.opengeospatial.org/files/65168)
+* [sensorMode](http://portal.opengeospatial.org/files/65168)
+
+## Additional search parameters for Landsat 8
+
+* [maxCloudCoverPercentage](http://portal.opengeospatial.org/files/65168)
+* [minCloudCoverPercentage](http://portal.opengeospatial.org/files/65168)
+
+## Additional search parameters for Sentinel 1
+
+* [orbitDirection](http://portal.opengeospatial.org/files/65168)
+* [orbitNumber](http://portal.opengeospatial.org/files/65168)
+* [polarisationChannels](http://portal.opengeospatial.org/files/65168)
+* [productType](http://portal.opengeospatial.org/files/65168)
+* [resolution](http://portal.opengeospatial.org/files/65168)
+* [sensorMode](http://portal.opengeospatial.org/files/65168)
+
+## Additional search parameters for Sentinel 2
+
+* [maxCloudCoverPercentage](http://portal.opengeospatial.org/files/65168)
+* [minCloudCoverPercentage](http://portal.opengeospatial.org/files/65168)
+* [orbitNumber](http://portal.opengeospatial.org/files/65168)
+* [sensorMode](http://portal.opengeospatial.org/files/65168)
 
 ## Search result format
 
@@ -50,6 +63,52 @@ Information about a specific resource can be obtained in gml or json by specifyi
 
 
 ## Example searches
+
+### Landsat
+
+http://opensearch-test.ceda.ac.uk/opensearch/atom?mission=landsat
+
+http://opensearch-test.ceda.ac.uk/opensearch/atom?platform=landsat-5
+
+http://opensearch-test.ceda.ac.uk/opensearch/atom?platform=landsat-5&dataFormat=geotiff
+
+http://opensearch-test.ceda.ac.uk/opensearch/atom?platform=landsat-5&instrument=TM
+
+http://opensearch-test.ceda.ac.uk/opensearch/atom?platform=landsat-7&instrument=ETM
+
+http://opensearch-test.ceda.ac.uk/opensearch/atom?platform=landsat-8&instrument=OLI_TIRS
+
+http://opensearch-test.ceda.ac.uk/opensearch/atom?name=LT50210501990010CPE00
+
+http://opensearch-test.ceda.ac.uk/opensearch/atom?platform=landsat-5&sensorMode=SAM
+
+http://opensearch-test.ceda.ac.uk/opensearch/atom?platform=landsat-7&sensorMode=SAM
+
+http://opensearch-test.ceda.ac.uk/opensearch/atom?uid=42a2a190104f75d8180ddf44d5cc28c4e675badc
+
+#### date
+
+http://opensearch-test.ceda.ac.uk/opensearch/atom?mission=landsat&startDate=2016-08-10T00:00:00.000Z
+
+http://opensearch-test.ceda.ac.uk/opensearch/atom?mission=landsat&endDate=2016-08-20T00:00:00.000Z
+
+http://opensearch-test.ceda.ac.uk/opensearch/atom?mission=landsat&startDate=2016-08-10T00:00:00.000Z&endDate=2016-08-20T00:00:00.000Z
+
+#### bbox
+
+http://opensearch-test.ceda.ac.uk/opensearch/atom?mission=landsat&bbox=1,1,90,90
+
+#### polygon
+
+http://opensearch-test.ceda.ac.uk/opensearch/atom?mission=landsat&geometry=POLYGON((-90%2016,-95%2012,-95%2010,-90%2010,-90%2016))
+
+#### cloud
+
+http://opensearch-test.ceda.ac.uk/opensearch/atom?platform=mission=landsat&minCloudCoverPercentage=40
+
+http://opensearch-test.ceda.ac.uk/opensearch/atom?platform=mission=landsat&maxCloudCoverPercentage=50
+
+http://opensearch-test.ceda.ac.uk/opensearch/atom?platform=mission=landsat&minCloudCoverPercentage=40&maxCloudCoverPercentage=50
 
 ### Sentinel 1
 

@@ -165,75 +165,20 @@ class COSAtomResponse(OSAtomResponse):
 
             directory = subresult.file.directory
 
-            # only include the data file if it is on disk
+            # data files
             if subresult.file.location == "on_disk":
-                # data file
-                file_name = subresult.file.data_file
-                full_path = os.path.join(directory, file_name)
-                file_type = file_name.split('.')[-1]
-                try:
-                    mime_type = get_mime_type(file_type)
-                except KeyError:
-                    LOGGING.warn(
-                        'Unable to discover mime type for {}'.
-                        format(file_type))
-                    mime_type = None
-
-                # add data links
-                data_url = urljoin_path(FTP_SERVER, full_path)
-                link = createLink(data_url, 'enclosure', mime_type, atomroot)
-                link.set('title', 'ftp')
-                entry.append(link)
-                data_url = urljoin_path(PYDAP_SERVER, full_path)
-                link = createLink(data_url, 'enclosure', mime_type, atomroot)
-                link.set('title', 'pydap')
-                entry.append(link)
+                self._add_data_files(subresult, directory, atomroot, entry)
 
             # metadata
             file_name = subresult.file.metadata_file
-            full_path = os.path.join(directory, file_name)
-            file_type = file_name.split('.')[-1]
-            try:
-                mime_type = get_mime_type(file_type)
-            except KeyError:
-                LOGGING.warn(
-                    'Unable to discover mime type for {}'.format(file_type))
-                mime_type = None
+            self._add_file_links(file_name, directory, atomroot, entry, 'via')
 
-            # add metadata links
-            data_url = urljoin_path(FTP_SERVER, full_path)
-            link = createLink(data_url, 'via', mime_type, atomroot)
-            link.set('title', 'ftp')
-            entry.append(link)
-            data_url = urljoin_path(PYDAP_SERVER, full_path)
-            link = createLink(data_url, 'via', mime_type, atomroot)
-            link.set('title', 'pydap')
-            entry.append(link)
-
-            # Add quick look
+            # add quick look
             try:
                 file_name = subresult.file.quicklook_file
                 if file_name != "":
-                    full_path = os.path.join(directory, file_name)
-                    file_type = file_name.split('.')[-1]
-                    try:
-                        mime_type = get_mime_type(file_type)
-                    except KeyError:
-                        LOGGING.warn(
-                            'Unable to discover mime type for {}'.
-                            format(file_type))
-                        mime_type = None
-
-                    browse_url = urljoin_path(FTP_SERVER, full_path)
-                    link = createLink(
-                        browse_url, 'icon', mime_type, atomroot)
-                    link.set('title', 'ftp')
-                    entry.append(link)
-                    browse_url = urljoin_path(PYDAP_SERVER, full_path)
-                    link = createLink(
-                        browse_url, 'icon', mime_type, atomroot)
-                    link.set('title', 'pydap')
-                    entry.append(link)
+                    self._add_file_links(file_name, directory, atomroot, entry,
+                                         'icon')
             except AttributeError:
                 # no quick look
                 pass
@@ -242,6 +187,49 @@ class COSAtomResponse(OSAtomResponse):
 
         for entry in entries:
             atomroot.append(entry)
+
+    def _add_data_files(self, subresult, directory, atomroot, entry):
+        """
+        Update the 'entry' with links to the data file(s).
+
+        """
+        try:
+            # check for multiple data files
+            file_names = subresult.file.data_files.split(',')
+            for file_name in file_names:
+                self._add_file_links(file_name, directory, atomroot, entry,
+                                     'section')
+        except AttributeError:
+            # no multiple data files, so add data file, but
+            file_name = subresult.file.data_file
+            self._add_file_links(file_name, directory, atomroot, entry,
+                                 'enclosure')
+
+    def _add_file_links(self, file_name, directory, atomroot, entry,
+                        atom_type):
+        """
+        Update the 'entry' with links to a file.
+
+        """
+        full_path = os.path.join(directory, file_name)
+        file_type = file_name.split('.')[-1].lower()
+        try:
+            mime_type = get_mime_type(file_type)
+        except KeyError:
+            LOGGING.warn(
+                'Unable to discover mime type for {}'.
+                format(file_type))
+            mime_type = None
+
+        # add data links
+        data_url = urljoin_path(FTP_SERVER, full_path)
+        link = createLink(data_url, atom_type, mime_type, atomroot)
+        link.set('title', 'ftp')
+        entry.append(link)
+        data_url = urljoin_path(PYDAP_SERVER, full_path)
+        link = createLink(data_url, atom_type, mime_type, atomroot)
+        link.set('title', 'pydap')
+        entry.append(link)
 
     def generate_url(self, os_host_url, context):
         """
@@ -559,7 +547,7 @@ class COSQuery(OSQuery):
         markup.set("name", "mission")
         markup.set("value", "{eo:mission}")
         root.append(markup)
-        missions = ['Sentinel-1', 'Sentinel-2']
+        missions = ['Landsat', 'Sentinel-1', 'Sentinel-2']
         for mission in missions:
             option = createMarkup(
                 'Option', PARAM_PREFIX, PARAM_NAMESPACE, root)
@@ -572,7 +560,8 @@ class COSQuery(OSQuery):
         markup.set("name", "platform")
         markup.set("value", "{eo:plarform}")
         root.append(markup)
-        platforms = ['Sentinel-1A', 'Sentinel-2A']
+        platforms = ['Landsat-5', 'Landsat-7', 'Landsat-8', 'Sentinel-1A',
+                     'Sentinel-2A']
         for platform in platforms:
             option = createMarkup(
                 'Option', PARAM_PREFIX, PARAM_NAMESPACE, root)

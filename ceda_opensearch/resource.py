@@ -333,11 +333,11 @@ def _add_acquisitionParameters(root, parent, result):
         LOGGING.debug('Start Orbit Number not found')
     try:
         last_orbit_number = result.misc.orbit_info['Stop Orbit Number']
-    except KeyError:
+    except AttributeError:
         LOGGING.debug('Last Orbit Number not found')
     try:
         orbit_direction = result.misc.orbit_info['Pass Direction']
-    except KeyError:
+    except AttributeError:
         LOGGING.debug('Orbit Direction not found')
     try:
         polarisation = result.misc.product_info.Polarisation
@@ -378,12 +378,32 @@ def _add_acquisitionParameters(root, parent, result):
 
 
 def _add_result(root, result):
-    try:
-        file_name = os.path.join(result.file.directory, result.file.data_file)
-        file_size = str(result.file.data_file_size)
-    except AttributeError:
-        LOGGING.debug('file.directory or file.data_file not found')
+    if result.file.location == "on_tape":
+        LOGGING.debug('data is on tape')
         return
+    try:
+        file_names = result.file.data_files.split(',')
+        sizes = result.file.data_file_sizes.split(',')
+        earthObservationResult = _add_eo_result(root, result)
+
+        for i in range(0, len(file_names) - 1):
+            file_name = os.path.join(result.file.directory, file_names[i])
+            _add_file(root, earthObservationResult, file_name, sizes[i])
+    except AttributeError:
+        # not multiple files, add single file
+        try:
+            file_name = os.path.join(result.file.directory,
+                                     result.file.data_file)
+            file_size = str(result.file.data_file_size)
+            earthObservationResult = _add_eo_result(root, result)
+            _add_file(root, earthObservationResult, file_name, file_size)
+        except AttributeError:
+            LOGGING.debug('file.directory or file.data_file not found')
+            return
+
+
+def _add_eo_result(root, result):
+
     result_ = createMarkup('result', OM_PREFIX, OM_NAMESPACE, root)
     root.append(result_)
 
@@ -391,11 +411,12 @@ def _add_result(root, result):
         'EarthObservationResult', EOP_PREFIX, EOP_NAMESPACE, root)
     EarthObservationResult.set('{}:id'.format(GML_PREFIX), _get_id())
     result_.append(EarthObservationResult)
+    return EarthObservationResult
 
-    if result.file.location == "on_disk":
-        _add_product(root, EarthObservationResult, file_name, 'ftp', file_size)
-        _add_product(root, EarthObservationResult, file_name, 'pydap',
-                     file_size)
+
+def _add_file(root, earthObservationResult, file_name, file_size):
+    _add_product(root, earthObservationResult, file_name, 'ftp', file_size)
+    _add_product(root, earthObservationResult, file_name, 'pydap', file_size)
 
 
 def _add_product(root, parent, file_name, link_type, file_size):
