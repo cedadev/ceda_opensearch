@@ -295,7 +295,7 @@ def _add_procedure(root, result):
 def _add_platform(root, parent, result):
     try:
         platform_name = result.misc.platform['Satellite']
-    except AttributeError:
+    except (AttributeError, KeyError):
         LOGGING.debug('Satellite not found')
         return
     platform = createMarkup('platform', EOP_PREFIX, EOP_NAMESPACE, root)
@@ -310,7 +310,7 @@ def _add_platform(root, parent, result):
 def _add_instrument(root, parent, result):
     try:
         instrument_name = result.misc.platform['Instrument Abbreviation']
-    except AttributeError:
+    except (AttributeError, KeyError):
         LOGGING.debug('Instrument Abbreviation not found')
         return
     instrument = createMarkup('instrument', EOP_PREFIX, EOP_NAMESPACE, root)
@@ -329,15 +329,15 @@ def _add_acquisitionParameters(root, parent, result):
     polarisation = None
     try:
         orbit_number = result.misc.orbit_info['Start Orbit Number']
-    except AttributeError:
+    except (AttributeError, KeyError):
         LOGGING.debug('Start Orbit Number not found')
     try:
         last_orbit_number = result.misc.orbit_info['Stop Orbit Number']
-    except AttributeError:
+    except (AttributeError, KeyError):
         LOGGING.debug('Last Orbit Number not found')
     try:
         orbit_direction = result.misc.orbit_info['Pass Direction']
-    except AttributeError:
+    except (AttributeError, KeyError):
         LOGGING.debug('Orbit Direction not found')
     try:
         polarisation = result.misc.product_info.Polarisation
