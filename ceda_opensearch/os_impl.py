@@ -387,6 +387,9 @@ class COSQuery(OSQuery):
         params.append(OSParam("dataFormat", "dataFormat",
                               namespace=CEDA_NAMESPACE,
                               namespace_prefix=CEDA_PREFIX, default=''))
+        params.append(OSParam("dataOnline", "dataOnline",
+                              namespace=CEDA_NAMESPACE,
+                              namespace_prefix=CEDA_PREFIX, default=''))
         params.append(OSParam("instrument", "instrument",
                               namespace=EO_NAMESPACE,
                               namespace_prefix=EO_PREFIX,
@@ -493,6 +496,19 @@ class COSQuery(OSQuery):
         markup.set("pattern", "[0-9]+")
         markup.set("value", "{startPage}")
         root.append(markup)
+
+        markup = createMarkup(
+            'Parameter', PARAM_PREFIX, PARAM_NAMESPACE, root)
+        markup.set("name", "dataOnline")
+        markup.set("value", "{ceda:dataOnline}")
+        root.append(markup)
+        dataOnline = ['true', 'false']
+        for status in dataOnline:
+            option = createMarkup(
+                'Option', PARAM_PREFIX, PARAM_NAMESPACE, root)
+            option.set("label", status)
+            option.set("value", status)
+            markup.append(option)
 
         markup = createMarkup(
             'Parameter', PARAM_PREFIX, PARAM_NAMESPACE, root)

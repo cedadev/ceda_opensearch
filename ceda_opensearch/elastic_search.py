@@ -50,6 +50,7 @@ LOGGING = logging.getLogger(__name__)
 SEARCH_TERMS = {
     'uid': '_id',
     'dataFormat': 'data_format.format',
+    'dataOnline': 'file.location',
     'instrument': 'misc.platform.Instrument Abbreviation',
     'mission': 'misc.platform.Mission',
     'name': 'misc.product_info.Name',
@@ -168,6 +169,11 @@ def _get_must_list(context):
     for key in SEARCH_TERMS.keys():
         attr = context.get(key)
         if attr:
+            if key == 'dataOnline':
+                if attr.upper() == 'TRUE':
+                    attr = 'on_disk'
+                elif attr.upper() == 'FALSE':
+                    attr = 'on_tape'
             if type(SEARCH_TERMS[key]) == str:
                 query_list.append({"match_phrase":
                                    {SEARCH_TERMS[key]: attr}
