@@ -75,6 +75,8 @@ urlpatterns = [
     # Opensearch search
     url(r'^%s/%s$' %
         (OS_PATH, IFORMATS_RE), OpenSearch.as_view(), name='os_search'),
+    url(r'^%s/atom$' %
+        (OS_PATH), OpenSearch.as_view(), name='os_search_atom'),
 
     # Everything else
     url(r'^', Index.as_view(),

@@ -17,7 +17,7 @@
 		{% for message in status %}
 		{%if message.status == "ERROR" %}
 		<tr class="bg-danger">
-			<td>{{ message.test }}</td>
+			<td><a href="{% url 'os_search_atom' %}?{{ message.test }}">{{ message.test }}</a></td>
 			<td>{{ message.message }}</td>
 		</tr>
 		{% endif %}
@@ -26,7 +26,7 @@
 		{% for message in status %}
 		{%if message.status == "WARNING" %}
 		<tr class="bg-warning">
-			<td>{{ message.test }}</td>
+			<td><a href="{% url 'os_search_atom' %}?{{ message.test }}">{{ message.test }}</a></td>
 			<td>{{ message.message }}</td>
 		</tr>
 		{% endif %}
@@ -35,7 +35,7 @@
 		{% for message in status %}
 		{%if message.status == "OK" %}
 		<tr class="bg-success">
-			<td>{{ message.test }}</td>
+			<td><a href="{% url 'os_search_atom' %}?{{ message.test }}">{{ message.test }}</a></td>
 			<td>{{ message.message }}</td>
 		</tr>
 		{% endif %}
