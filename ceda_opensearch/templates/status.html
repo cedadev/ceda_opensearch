@@ -1,0 +1,48 @@
+{% extends "base.html" %} {% load i18n %}
+
+{% block title %}Status - {{es_index}}{% endblock %}
+
+{% block content %}
+
+<p>This table depicts the results from a number of searches based on the examples in the opensearch description document</p>
+<div class="table-responsive">
+<table class="table table-hover">
+	<thead>
+	  <tr>
+	    <th>Search Parameters</th>
+	    <th>Response</th>
+	  </tr>
+	</thead>
+	<tbody>
+		{% for message in status %}
+		{%if message.status == "ERROR" %}
+		<tr class="bg-danger">
+			<td>{{ message.test }}</td>
+			<td>{{ message.message }}</td>
+		</tr>
+		{% endif %}
+		{% endfor %}
+
+		{% for message in status %}
+		{%if message.status == "WARNING" %}
+		<tr class="bg-warning">
+			<td>{{ message.test }}</td>
+			<td>{{ message.message }}</td>
+		</tr>
+		{% endif %}
+		{% endfor %}
+
+		{% for message in status %}
+		{%if message.status == "OK" %}
+		<tr class="bg-success">
+			<td>{{ message.test }}</td>
+			<td>{{ message.message }}</td>
+		</tr>
+		{% endif %}
+		{% endfor %}
+
+	</tbody>
+</table>
+</div>
+
+{% endblock %}
