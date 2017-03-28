@@ -49,7 +49,8 @@ from django.conf.urls import url
 from django.contrib import admin
 
 from ceda_opensearch.constants import OS_PATH
-from ceda_opensearch.views import Description, OpenSearch, Index, Resource
+from ceda_opensearch.views import Description, OpenSearch, Index, Resource, \
+    Status
 
 
 IFORMAT = ["atom", "json"]
@@ -60,6 +61,9 @@ IFORMATS_RE2 = '(' + '|'.join(IFORMAT2) + ')'
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
+
+    # status
+    url(r'^status/$', Status.as_view()),
 
     # Resource
     url(r'resource/%s$' %

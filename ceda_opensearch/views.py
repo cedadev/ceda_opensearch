@@ -39,13 +39,18 @@ from django.utils.decorators import method_decorator
 from django.utils.safestring import mark_safe
 from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import View
+from django.views.generic.base import TemplateView
+from elasticsearch.exceptions import RequestError
 
+from ceda_opensearch import elastic_search
 from ceda_opensearch.constants import OS_DESCRIPTION_TYPE
 from ceda_opensearch.errors import Http400, Http503, ServiceUnavailable
+from ceda_opensearch.example_queries import EXAMPLE_PARAMETERS, BASE_CONTEXT
 from ceda_opensearch.helper import build_host_url, update_context, \
     get_mime_type
 from ceda_opensearch.middleware import CedaOpensearchMiddleware
 from ceda_opensearch.resource import get_resource
+from ceda_opensearch.settings import ELASTIC_INDEX
 
 
 LOGGING = logging.getLogger(__name__)
@@ -81,7 +86,7 @@ class OpenSearch(View):
         except Http400 as ex:
             LOGGING.debug(ex.message)
             if 'text/html' in request.META.get('HTTP_ACCEPT'):
-                context={'message':ex.message}
+                context = {'message': ex.message}
                 return render_to_response('400.html', context, status=400)
             else:
                 return HttpResponseBadRequest(reason=ex.message)
@@ -203,3 +208,45 @@ class Index(View):
         """
         return render_to_response('index.html', {},
                                   content_type=get_mime_type('html'))
+
+
+class Status(TemplateView):
+    """
+    Perform a number of queries based on the list in example_queries.
+
+    """
+
+    def get(self, request, *args, **kwargs):
+        """
+        Present the results of the example queries on a test page.
+
+        """
+        results = []
+        for example_parameters in EXAMPLE_PARAMETERS:
+            params = example_parameters.split('&')
+            context = dict(BASE_CONTEXT)
+            for param in params:
+                key, value = param.split('=')
+                context[key] = value
+            try:
+                _, total_hits = (elastic_search.get_search_results(context))
+            except (RequestError) as ex:
+                results.append({'test': example_parameters, 'status': 'ERROR',
+                                'message': ex})
+                continue
+            except Http400 as ex:
+                LOGGING.error(ex.message)
+                context = {'message': ex.message}
+                return render_to_response('400.html', context, status=400)
+            if total_hits > 0:
+                results.append({'test': example_parameters, 'status': 'OK',
+                                'message': '{} results found'.
+                                format(total_hits)})
+            else:
+                results.append({'test': example_parameters,
+                                'status': 'WARNING',
+                                'message': ' No results returned'})
+
+        context = {'status': results, 'es_index': ELASTIC_INDEX}
+        return render_to_response('status.html', context,
+                                  content_type='text/html')

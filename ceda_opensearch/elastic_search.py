@@ -283,6 +283,8 @@ def _get_bbox_query(context):
     try:
         west, south, east, north = bbox.split(',')
     except ValueError:
+        LOGGING.debug("bbox values not west, south, east, north. {}".
+                      format(bbox))
         return None
     query = {"geo_shape":
              {"spatial.geometries.search":
