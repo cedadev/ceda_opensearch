@@ -574,7 +574,7 @@ class COSQuery(OSQuery):
         markup = createMarkup(
             'Parameter', PARAM_PREFIX, PARAM_NAMESPACE, root)
         markup.set("name", "platform")
-        markup.set("value", "{eo:plarform}")
+        markup.set("value", "{eo:platform}")
         root.append(markup)
         platforms = ['Landsat-5', 'Landsat-7', 'Landsat-8', 'Sentinel-1A',
                      'Sentinel-2A']
