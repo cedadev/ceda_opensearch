@@ -36,6 +36,8 @@ import os
 from xml.dom import minidom
 from xml.etree.ElementTree import tostring
 
+from django.http.response import Http404
+
 from ceda_markup.markup import createMarkup, createSimpleMarkup
 from ceda_opensearch.constants import EOP_PREFIX, EOP_NAMESPACE, OM_PREFIX,\
     OM_NAMESPACE, XLINK_PREFIX, XLINK_NAMESPACE, OWS_PREFIX, OWS_NAMESPACE,\
@@ -73,7 +75,10 @@ def _get_json(request):
 
     """
     results, _ = get_search_results({'uid': request.GET.get('uid')})
-    jsondoc = results.pop().to_dict()
+    try:
+        jsondoc = results.pop().to_dict()
+    except IndexError:
+        raise Http404
     return json.dumps(jsondoc, indent=4, separators=(',', ': '))
 
 
@@ -88,7 +93,10 @@ def _get_xml(request):
     next_id = 0
     poly_count = 10000
     results, _ = get_search_results({'uid': request.GET.get('uid')})
-    result = results[0]
+    try:
+        result = results[0]
+    except IndexError:
+        raise Http404
     root = createMarkup('EarthObservation', EOP_PREFIX, EOP_NAMESPACE, None)
     root.set('xmlns:{}'.format(XSI_PREFIX), XSI_NAMESPACE)
     root.set('{}:schemaLocation'.format(XSI_PREFIX), SCHEMA_LOCATION)
