@@ -1,0 +1,64 @@
+{% load staticfiles %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<script
+	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<title>CEDA Opensearch Service</title>
+
+{% block head %}{% endblock %}
+
+</head>
+
+<body>
+	<div class="container-fluid">
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<h1>
+					CEDA Opensearch Service</br> <small>The opensearch service for
+						CEDA EO data</small>
+				</h1>
+			</div>
+		</div>
+	</div>
+
+	<div class="container">
+		<div class="panel panel-info">
+			<div class="panel-heading">
+				<h2>{% block title %}{% endblock %}</h2>
+			</div>
+			<div class="panel-body">
+				{% if messages %}
+	    		{% for message in messages %}
+	        		{% if message.level == DEFAULT_MESSAGE_LEVELS.SUCCESS %}
+					<div class="alert alert-success">{{ message }}</div>
+					{%elif message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}
+					<div class="alert alert-danger">{{ message }}</div>
+					{% endif %}
+	    		{% endfor %}
+				{% endif %}
+	
+				{% block navbar %}{% endblock %}
+	
+				{% block content %}<h2>block content</h2>{% endblock %}
+	
+			</div>
+	
+			<div class="panel-footer">
+				{% block footer %}
+				{% endblock %}
+			</div>
+	
+		</div>
+	</div>
+</body>
+
+</html>
