@@ -38,14 +38,16 @@ The [open search description document](http://opensearch-test.ceda.ac.uk/opensea
 * [orbitNumber](http://portal.opengeospatial.org/files/65168)
 * [polarisationChannels](http://portal.opengeospatial.org/files/65168)
 * [productType](http://portal.opengeospatial.org/files/65168)
+* [relativeOrbitNumber](http://www.esa.int/safe/sentinel/1.1)
 * [resolution](http://portal.opengeospatial.org/files/65168)
 * [sensorMode](http://portal.opengeospatial.org/files/65168)
 
-## Additional search parameters for Sentinel 2
+## Additional search parameters for Sentinel 2 and 3
 
 * [maxCloudCoverPercentage](http://portal.opengeospatial.org/files/65168)
 * [minCloudCoverPercentage](http://portal.opengeospatial.org/files/65168)
 * [orbitNumber](http://portal.opengeospatial.org/files/65168)
+* [relativeOrbitNumber](http://www.esa.int/safe/sentinel/1.1)
 * [sensorMode](http://portal.opengeospatial.org/files/65168)
 
 ## Search result format
@@ -128,6 +130,8 @@ http://opensearch-test.ceda.ac.uk/opensearch/atom?platform=sentinel-1A&orbitDire
 
 http://opensearch-test.ceda.ac.uk/opensearch/atom?platform=sentinel-1A&orbitNumber=12399
 
+http://opensearch-test.ceda.ac.uk/opensearch/atom?platform=sentinel-1A&relativeOrbitNumber=77
+
 http://opensearch-test.ceda.ac.uk/opensearch/atom?platform=sentinel-1A&resolution=M
 
 http://opensearch-test.ceda.ac.uk/opensearch/atom?platform=sentinel-1A&sensorMode=EW
@@ -168,6 +172,8 @@ http://opensearch-test.ceda.ac.uk/opensearch/atom?name=S2A_OPER_PRD_MSIL1C_PDMC_
 
 http://opensearch-test.ceda.ac.uk/opensearch/atom?platform=sentinel-2A&orbitNumber=005790
 
+http://opensearch-test.ceda.ac.uk/opensearch/atom?platform=sentinel-2A&orbitNumber=073
+
 http://opensearch-test.ceda.ac.uk/opensearch/atom?platform=sentinel-2A&sensorMode=INS-NOBS
 
 http://opensearch-test.ceda.ac.uk/opensearch/atom?uid=876f2e35b75d645723642b3ef95571d5ea23691d
@@ -196,6 +202,45 @@ http://opensearch-test.ceda.ac.uk/opensearch/atom?platform=sentinel-2A&maxCloudC
 
 http://opensearch-test.ceda.ac.uk/opensearch/atom?platform=sentinel-2A&minCloudCoverPercentage=40&maxCloudCoverPercentage=50
 
+### Sentinel 3
+
+http://opensearch-test.ceda.ac.uk/opensearch/atom?platform=sentinel-3A
+
+http://opensearch-test.ceda.ac.uk/opensearch/atom?platform=sentinel-3A&dataFormat=safe
+
+http://opensearch-test.ceda.ac.uk/opensearch/atom?instrument=SLSTR
+
+http://opensearch-test.ceda.ac.uk/opensearch/atom?mission=sentinel-3
+
+http://opensearch-test.ceda.ac.uk/opensearch/atom?platform=sentinel-3A&orbitNumber=3905
+
+http://opensearch-test.ceda.ac.uk/opensearch/atom?platform=sentinel-3A&orbitNumber=82
+
+http://opensearch-test.ceda.ac.uk/opensearch/atom?platform=sentinel-3A&sensorMode=Earth Observation
+
+#### date
+
+http://opensearch-test.ceda.ac.uk/opensearch/atom?platform=sentinel-3A&startDate=2016-11-10T00:00:00.000Z
+
+http://opensearch-test.ceda.ac.uk/opensearch/atom?platform=sentinel-3A&endDate=2016-11-20T00:00:00.000Z
+
+http://opensearch-test.ceda.ac.uk/opensearch/atom?platform=sentinel-3A&startDate=2016-11-10T00:00:00.000Z&endDate=2016-11-20T00:00:00.000Z
+
+#### bbox
+
+http://opensearch-test.ceda.ac.uk/opensearch/atom?platform=sentinel-3A&bbox=1,1,90,90
+
+#### polygon
+
+http://opensearch-test.ceda.ac.uk/opensearch/atom?platform=sentinel-3A&geometry=POLYGON((30%2010,40%2040,20%2040,10%2020,30%2010)(29%2011,29%2028,11%2021,29%2011))
+
+#### cloud
+
+http://opensearch-test.ceda.ac.uk/opensearch/atom?platform=sentinel-3A&minCloudCoverPercentage=40
+
+http://opensearch-test.ceda.ac.uk/opensearch/atom?platform=sentinel-3A&maxCloudCoverPercentage=50
+
+http://opensearch-test.ceda.ac.uk/opensearch/atom?platform=sentinel-3A&minCloudCoverPercentage=40&maxCloudCoverPercentage=50
 
 ## Limitations
 

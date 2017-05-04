@@ -60,6 +60,9 @@ OWS_PREFIX = 'ows'
 PARAM_NAMESPACE = 'http://a9.com/-/spec/opensearch/extensions/parameters/1.0/'
 PARAM_PREFIX = 'param'
 
+SAFE_NAMESPACE = 'http://www.esa.int/safe/sentinel/1.1'
+SAFE_PREFIX = 'safe'
+
 SAR_NAMESPACE = 'http://www.opengis.net/sar/2.1'
 SAR_PREFIX = 'sar'
 

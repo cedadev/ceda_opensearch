@@ -36,13 +36,13 @@ import os
 from xml.dom import minidom
 from xml.etree.ElementTree import tostring
 
+from ceda_markup.markup import createMarkup, createSimpleMarkup
 from django.http.response import Http404
 
-from ceda_markup.markup import createMarkup, createSimpleMarkup
 from ceda_opensearch.constants import EOP_PREFIX, EOP_NAMESPACE, OM_PREFIX,\
     OM_NAMESPACE, XLINK_PREFIX, XLINK_NAMESPACE, OWS_PREFIX, OWS_NAMESPACE,\
     XSI_PREFIX, SCHEMA_LOCATION, XSI_NAMESPACE, GML_PREFIX, GML_NAMESPACE,\
-    SAR_NAMESPACE, SAR_PREFIX
+    SAFE_NAMESPACE, SAFE_PREFIX, SAR_NAMESPACE, SAR_PREFIX
 from ceda_opensearch.elastic_search import get_search_results
 from ceda_opensearch.helper import urljoin_path
 from ceda_opensearch.settings import FTP_SERVER, PYDAP_SERVER
@@ -333,6 +333,7 @@ def _add_instrument(root, parent, result):
 def _add_acquisitionParameters(root, parent, result):
     orbit_number = None
     last_orbit_number = None
+    relative_orbit_number = None
     orbit_direction = None
     polarisation = None
     try:
@@ -343,6 +344,10 @@ def _add_acquisitionParameters(root, parent, result):
         last_orbit_number = result.misc.orbit_info['Stop Orbit Number']
     except (AttributeError, KeyError):
         LOGGING.debug('Last Orbit Number not found')
+    try:
+        relative_orbit_number = result.misc.orbit_info['Start Relative Orbit Number']
+    except (AttributeError, KeyError):
+        LOGGING.debug('Start Relative Orbit Number not found')
     try:
         orbit_direction = result.misc.orbit_info['Pass Direction']
     except (AttributeError, KeyError):
@@ -369,6 +374,11 @@ def _add_acquisitionParameters(root, parent, result):
                 last_orbit_number, root, 'lastOrbitNumber', EOP_NAMESPACE,
                 EOP_PREFIX)
             Acquisition.append(lastOrbitNumber)
+        if relative_orbit_number is not None:
+            relativeOrbitNumber = createSimpleMarkup(
+                relative_orbit_number, root, 'relativeOrbitNumber', SAFE_NAMESPACE,
+                SAFE_PREFIX)
+            Acquisition.append(relativeOrbitNumber)
         if orbit_direction is not None:
             orbitDirection = createSimpleMarkup(
                 orbit_direction, root, 'orbitDirection', EOP_NAMESPACE,
@@ -379,10 +389,10 @@ def _add_acquisitionParameters(root, parent, result):
         Acquisition = createMarkup(
             'Acquisition', SAR_PREFIX, SAR_NAMESPACE, root)
         acquisitionParameters.append(Acquisition)
-        orbitNumber = createSimpleMarkup(
-            orbit_number, root, 'polarisationChannels', SAR_NAMESPACE,
+        polarisationMarkup = createSimpleMarkup(
+            polarisation, root, 'polarisationChannels', SAR_NAMESPACE,
             SAR_PREFIX)
-        Acquisition.append(orbitNumber)
+        Acquisition.append(polarisationMarkup)
 
 
 def _add_result(root, result):

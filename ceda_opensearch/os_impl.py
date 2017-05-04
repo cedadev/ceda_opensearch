@@ -43,7 +43,7 @@ from ceda_markup.opensearch import OSAtomResponse, OSJsonResponse, OSParam, \
 from ceda_opensearch.constants import CEDA_NAMESPACE, EO_NAMESPACE, \
     GEO_NAMESPACE, DCT_NAMESPACE, CEDA_PREFIX, EO_PREFIX, \
     GEO_PREFIX, DCT_PREFIX, TIME_NAMESPACE, TIME_PREFIX, OS_PATH, \
-    COUNT_DEFAULT, PARAM_PREFIX, PARAM_NAMESPACE
+    COUNT_DEFAULT, PARAM_PREFIX, PARAM_NAMESPACE, SAFE_PREFIX, SAFE_NAMESPACE
 from ceda_opensearch.elastic_search import get_search_results
 from ceda_opensearch.helper import get_index, get_mime_type, \
     import_count_and_page, urljoin_path
@@ -427,6 +427,9 @@ class COSQuery(OSQuery):
         params.append(OSParam("orbitNumber", "orbitNumber",
                               namespace=EO_NAMESPACE,
                               namespace_prefix=EO_PREFIX, default=''))
+        params.append(OSParam("relativeOrbitNumber", "relativeOrbitNumber",
+                              namespace=SAFE_NAMESPACE,
+                              namespace_prefix=SAFE_PREFIX, default=''))
         params.append(OSParam("sensorMode", "sensorMode",
                               namespace=EO_NAMESPACE,
                               namespace_prefix=EO_PREFIX, default=''))
@@ -563,7 +566,7 @@ class COSQuery(OSQuery):
         markup.set("name", "mission")
         markup.set("value", "{eo:mission}")
         root.append(markup)
-        missions = ['Landsat', 'Sentinel-1', 'Sentinel-2']
+        missions = ['Landsat', 'Sentinel-1', 'Sentinel-2', 'Sentinel-3']
         for mission in missions:
             option = createMarkup(
                 'Option', PARAM_PREFIX, PARAM_NAMESPACE, root)
@@ -577,7 +580,7 @@ class COSQuery(OSQuery):
         markup.set("value", "{eo:platform}")
         root.append(markup)
         platforms = ['Landsat-5', 'Landsat-7', 'Landsat-8', 'Sentinel-1A',
-                     'Sentinel-2A']
+                     'Sentinel-2A', 'Sentinel-3A']
         for platform in platforms:
             option = createMarkup(
                 'Option', PARAM_PREFIX, PARAM_NAMESPACE, root)
@@ -604,6 +607,14 @@ class COSQuery(OSQuery):
         markup.set("pattern", "(\[|\])[0-9]+,[0-9]+(\[|\])|(\[|\])?[0-9]+|[0-9"
                    "]+(\[|\])?|\{[0-9]+,[0-9]+\}")
         markup.set("value", "{eo:orbitNumber}")
+        root.append(markup)
+
+        markup = createMarkup(
+            'Parameter', PARAM_PREFIX, PARAM_NAMESPACE, root)
+        markup.set("name", "relativeOrbitNumber")
+        markup.set("pattern", "(\[|\])[0-9]+,[0-9]+(\[|\])|(\[|\])?[0-9]+|[0-9"
+                   "]+(\[|\])?|\{[0-9]+,[0-9]+\}")
+        markup.set("value", "{safe:relativeOrbitNumber}")
         root.append(markup)
 
         markup = createMarkup(

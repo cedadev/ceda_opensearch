@@ -32,9 +32,9 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 import logging
 
-from django.core.context_processors import csrf
 from django.http import HttpResponse, HttpResponseBadRequest
 from django.shortcuts import render_to_response
+from django.template.context_processors import csrf
 from django.utils.decorators import method_decorator
 from django.utils.safestring import mark_safe
 from django.views.decorators.csrf import csrf_exempt
@@ -238,6 +238,8 @@ class Status(TemplateView):
                 LOGGING.error(ex.message)
                 context = {'message': ex.message}
                 return render_to_response('400.html', context, status=400)
+            except Http503 as ex:
+                return ServiceUnavailable(reason=ex.message)
             if total_hits > 0:
                 results.append({'test': example_parameters, 'status': 'OK',
                                 'message': '{} results found'.

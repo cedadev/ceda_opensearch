@@ -140,6 +140,7 @@ EXAMPLE_PARAMETERS = [
     'name=S1A_EW_GRDM_1SSH_20160801T001924_20160801T002010_012399_013578_021D',
     'platform=sentinel-1A&productType=GRD',
     'platform=sentinel-1A&orbitNumber=12399',
+    'platform=sentinel-1A&relativeOrbitNumber=77',
     'platform=sentinel-1A&orbitDirection=ascending',
     'platform=sentinel-1A&resolution=M',
     'platform=sentinel-1A&sensorMode=EW',
@@ -171,6 +172,7 @@ EXAMPLE_PARAMETERS = [
     '801T000734',
     # 'platform=sentinel-2A&productType=S2MSI1C',
     'platform=sentinel-2A&orbitNumber=005790',
+    'platform=sentinel-2A&relativeOrbitNumber=073',
     # 'platform=sentinel-2A&orbitDirection=ascending',
     # 'platform=sentinel-2A&resolution=20',
     'platform=sentinel-2A&sensorMode=INS-NOBS',
@@ -189,10 +191,45 @@ EXAMPLE_PARAMETERS = [
     'platform=sentinel-2A&startDate=2016-08-10T00:00:00.000Z&endDate=2016-08-2'
     '0T00:00:00.000Z&minCloudCoverPercentage=40&maxCloudCoverPercentage=50&bbo'
     'x=1,1,90,90',
-    # Sentinel 2 specific
+    # Sentinel 2 & 3 specific
     # Cloud
     'platform=sentinel-2A&minCloudCoverPercentage=40',
     'platform=sentinel-2A&maxCloudCoverPercentage=50',
     'platform=sentinel-2A&minCloudCoverPercentage=40&maxCloudCoverPercentage=5'
+    '0',
+
+    # Sentinel 3
+    'platform=sentinel-3A',
+    'platform=sentinel-3A&dataFormat=safe',
+    'platform=sentinel-3A&dataOnline=true',
+    'instrument=SLSTR',
+    'mission=sentinel-3',
+    #     'name=S1A_EW_GRDM_1SSH_20160801T001924_20160801T002010_012399_013578_021D',
+    'platform=sentinel-3A&productType=SL_1_RBT',
+    'platform=sentinel-3A&orbitNumber=3905',
+    'platform=sentinel-3A&relativeOrbitNumber=82',
+    #     'platform=sentinel-3A&orbitDirection=ascending',
+    #     'platform=sentinel-3A&resolution=M',
+    'platform=sentinel-3A&sensorMode=Earth Observation',
+    #     'uid=42a2a190104f75d8180ddf44d5cc28c4e675badc', TODO
+    # Date
+    'platform=sentinel-3A&startDate=2016-11-10T00:00:00.000Z',
+    'platform=sentinel-3A&endDate=2016-11-20T00:00:00.000Z',
+    'platform=sentinel-3A&startDate=2016-11-10T00:00:00.000Z&endDate=2016-11-2'
+    '0T00:00:00.000Z',
+    # bbox
+    'platform=sentinel-3A&bbox=1,1,90,90',
+    # poloygon
+    'platform=sentinel-3A&geometry=POLYGON((30 10,40 40,20 40,10 20,30 10)(29 '
+    '11,29 28,11 21,29 11))',
+    # multiple ranges
+    'platform=sentinel-3A&startDate=2016-11-10T00:00:00.000Z&endDate=2016-11-2'
+    '0T00:00:00.000Z&bbox=1,1,90,90',
+
+    # Sentinel 2 & 3 specific
+    # Cloud
+    'platform=sentinel-3A&minCloudCoverPercentage=40',
+    'platform=sentinel-3A&maxCloudCoverPercentage=50',
+    'platform=sentinel-3A&minCloudCoverPercentage=40&maxCloudCoverPercentage=5'
     '0',
 ]

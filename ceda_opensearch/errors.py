@@ -73,7 +73,7 @@ class Http503(Exception):
 
     def __init__(self, message=None):
         """
-        Init the Http400.
+        Init the Http503.
 
         @param message (str): a message about the error
 

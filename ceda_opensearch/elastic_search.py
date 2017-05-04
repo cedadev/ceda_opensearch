@@ -59,6 +59,7 @@ SEARCH_TERMS = {
     'productType': 'misc.product_info.Product Type',
     'orbitDirection': 'misc.orbit_info.Pass Direction',
     'orbitNumber': 'misc.orbit_info.Start Orbit Number',
+    'relativeOrbitNumber': 'misc.orbit_info.Start Relative Orbit Number',
     'resolution': 'misc.product_info.Resolution',
     'sensorMode': ['misc.product_info.Datatake Type',
                    'misc.platform.Instrument Mode'],
