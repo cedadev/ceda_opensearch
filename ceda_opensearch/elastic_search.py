@@ -100,7 +100,8 @@ def get_search_results(context):
 
     query_dict = {'query': {'bool': bool_query}}
     elastic_search = elastic_search.from_dict(query_dict)
-    elastic_search = elastic_search.sort('temporal.start_time')
+    elastic_search = elastic_search.sort(
+        {'temporal.start_time': {'order': 'desc'}})
 
     count, start_index, start_page = import_count_and_page(context)
     first_result = _get_offset(count, start_index, start_page)
