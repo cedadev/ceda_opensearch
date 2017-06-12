@@ -169,16 +169,14 @@ class helper(OSEngineHelper):
         markup.set("orbitNumber", "3905")
         markup.set("relativeOrbitNumber", "82")
         markup.set("platform", "sentinel-3A")
-        markup.set("productType", "SL_1_RBT")
+#         markup.set("productType", "SL_1_RBT")
 #         markup.set("resolution", "10")
         markup.set("sensorMode", "Earth Observation")
-        markup.set("minCloudCoverPercentage", "10")
-        markup.set("maxCloudCoverPercentage", "20")
         req_doc.append(markup)
 
         markup = createMarkup('Query', OS_PREFIX, OS_NAMESPACE, req_doc)
         markup.set("role", "example")
-        markup.set("uid", "876f2e35b75d645723642b3ef95571d5ea23691d")
+        markup.set("uid", "S2A_OPER_PRD_MSIL1C_PDMC_20160607T155132_R062_V20150627T102531_20150627T102531")
         req_doc.append(markup)
 
         markup = createMarkup('Query', OS_PREFIX, OS_NAMESPACE, req_doc)

@@ -48,7 +48,7 @@ LOGGING = logging.getLogger(__name__)
 # startDate and endDate have been left out on purpose, there are separate calls
 # to get the bbox filter, geometry filter, cloud filter and temporal filter
 SEARCH_TERMS = {
-    'uid': '_id',
+    'uid': 'misc.product_info.Name',
     'dataFormat': 'data_format.format',
     'dataOnline': 'file.location',
     'instrument': 'misc.platform.Instrument Abbreviation',

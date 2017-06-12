@@ -144,7 +144,7 @@ EXAMPLE_PARAMETERS = [
     'platform=sentinel-1A&orbitDirection=ascending',
     'platform=sentinel-1A&resolution=M',
     'platform=sentinel-1A&sensorMode=EW',
-    #     'uid=42a2a190104f75d8180ddf44d5cc28c4e675badc', TODO
+    'uid=S1A_IW_SLC__1SDV_20141003T054301_20141003T054328_002661_002F66_75CD',
     # Date
     'platform=sentinel-1A&startDate=2016-08-10T00:00:00.000Z',
     'platform=sentinel-1A&endDate=2016-08-20T00:00:00.000Z',
@@ -176,7 +176,7 @@ EXAMPLE_PARAMETERS = [
     # 'platform=sentinel-2A&orbitDirection=ascending',
     # 'platform=sentinel-2A&resolution=20',
     'platform=sentinel-2A&sensorMode=INS-NOBS',
-    #     'uid=876f2e35b75d645723642b3ef95571d5ea23691d', TODO
+    'uid=S2A_OPER_PRD_MSIL1C_PDMC_20160607T155132_R062_V20150627T102531_20150627T102531',
     # Date
     'platform=sentinel-2A&startDate=2016-08-10T00:00:00.000Z',
     'platform=sentinel-2A&endDate=2016-08-20T00:00:00.000Z',
@@ -191,7 +191,7 @@ EXAMPLE_PARAMETERS = [
     'platform=sentinel-2A&startDate=2016-08-10T00:00:00.000Z&endDate=2016-08-2'
     '0T00:00:00.000Z&minCloudCoverPercentage=40&maxCloudCoverPercentage=50&bbo'
     'x=1,1,90,90',
-    # Sentinel 2 & 3 specific
+    # Sentinel 2 specific
     # Cloud
     'platform=sentinel-2A&minCloudCoverPercentage=40',
     'platform=sentinel-2A&maxCloudCoverPercentage=50',
@@ -204,14 +204,14 @@ EXAMPLE_PARAMETERS = [
     'platform=sentinel-3A&dataOnline=true',
     'instrument=SLSTR',
     'mission=sentinel-3',
-    #     'name=S1A_EW_GRDM_1SSH_20160801T001924_20160801T002010_012399_013578_021D',
-    'platform=sentinel-3A&productType=SL_1_RBT',
+    # 'name=S1A_EW_GRDM_1SSH_20160801T001924_20160801T002010_012399_013578_021D',
+    # 'platform=sentinel-3A&productType=SL_1_RBT',
     'platform=sentinel-3A&orbitNumber=3905',
     'platform=sentinel-3A&relativeOrbitNumber=82',
     #     'platform=sentinel-3A&orbitDirection=ascending',
     #     'platform=sentinel-3A&resolution=M',
     'platform=sentinel-3A&sensorMode=Earth Observation',
-    #     'uid=42a2a190104f75d8180ddf44d5cc28c4e675badc', TODO
+    'uid=S3A_SL_1_RBT____20161116T142921_20161116T143221_20161116T171144_0179_011_082_0719_SVL_O_NR_002',
     # Date
     'platform=sentinel-3A&startDate=2016-11-10T00:00:00.000Z',
     'platform=sentinel-3A&endDate=2016-11-20T00:00:00.000Z',
@@ -225,11 +225,4 @@ EXAMPLE_PARAMETERS = [
     # multiple ranges
     'platform=sentinel-3A&startDate=2016-11-10T00:00:00.000Z&endDate=2016-11-2'
     '0T00:00:00.000Z&bbox=1,1,90,90',
-
-    # Sentinel 2 & 3 specific
-    # Cloud
-    'platform=sentinel-3A&minCloudCoverPercentage=40',
-    'platform=sentinel-3A&maxCloudCoverPercentage=50',
-    'platform=sentinel-3A&minCloudCoverPercentage=40&maxCloudCoverPercentage=5'
-    '0',
 ]
