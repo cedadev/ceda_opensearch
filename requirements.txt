@@ -1,4 +1,4 @@
-Django==1.9
+Django==1.11
 elasticsearch==2.4.1
 elasticsearch-dsl==2.0.0
 python-dateutil==2.6.0

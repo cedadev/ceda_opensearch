@@ -32,7 +32,7 @@ setup(
     classifiers=[
         'Environment :: Web Environment',
         'Framework :: Django',
-        'Framework :: Django :: 1.9',
+        'Framework :: Django :: 1.11',
         'Intended Audience :: Developers',
         'License :: OSI Approved :: BSD License',
         'Operating System :: OS Independent',
@@ -47,7 +47,7 @@ setup(
 
     # Adds dependencies
     install_requires=[
-        'Django==1.9',
+        'Django==1.11',
         'ceda-markup==0.2.0',
         'elasticsearch_dsl==2'
     ],
