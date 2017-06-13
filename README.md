@@ -1,5 +1,5 @@
 # CEDA Opensearch
-This package provides an open search interface to CEDAs elastic search, which currently provides Landsat 5, 7 and 8 data (all limited in geographic scope) and Sentinel 1, 2 and 3 data.
+This package provides an open search interface to CEDAs elastic search, which currently provides Landsat 5, 7 and 8 data (all limited in geographic scope) and Sentinel 1, 2 and 3 data. The dataOnline flag is used to indicate if the data is online (spinning disk) or offline (tape).
 
 ## Open search description document
 
@@ -9,6 +9,7 @@ The [open search description document](http://opensearch.ceda.ac.uk/opensearch/d
 
 * [bbox](http://www.opensearch.org/Specifications/OpenSearch/Extensions/Geo/1.0/Draft_2#The_.22box.22_parameter)
 * dataFormat
+* dataOnline
 * [endDate](http://www.opensearch.org/Specifications/OpenSearch/Extensions/Time/1.0/Draft_1#The_.22start.22_and_.22end.22_parameters)
 * [geometry](http://www.opensearch.org/Specifications/OpenSearch/Extensions/Geo/1.0/Draft_2#The_.22geometry.22_parameter) (polygon)
 * [instrument](http://portal.opengeospatial.org/files/65168)
