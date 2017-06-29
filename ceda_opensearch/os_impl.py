@@ -123,14 +123,15 @@ class COSAtomResponse(OSAtomResponse):
 
         entries = []
         for subresult in subresults:
-            _id = '%s?uid=%s' % (url, subresult.meta.id)
+            uid = subresult.misc.product_info.Name
+            _id = '%s?uid=%s' % (url, uid)
             atom_id = createID(_id, root=atomroot)
 
             try:
                 title = subresult.misc.product_info[
                     'Product Class Description']
             except (AttributeError, KeyError):
-                title = subresult.meta.id
+                title = uid
             ititle = createTitle(root=atomroot, body=title, itype=TEXT_TYPE)
             atom_content = None
             time_doc = datetime.datetime.now().isoformat()
@@ -142,7 +143,7 @@ class COSAtomResponse(OSAtomResponse):
                                 published=atom_published,
                                 content=atom_content, root=atomroot)
             entry.append(
-                createSimpleMarkup(subresult.meta.id, atomroot, 'identifier',
+                createSimpleMarkup(uid, atomroot, 'identifier',
                                    DCT_NAMESPACE, DCT_PREFIX))
             date_str = '{start}Z/{end}Z'.format(
                 start=subresult.temporal.start_time,
@@ -154,12 +155,12 @@ class COSAtomResponse(OSAtomResponse):
             resource_url = url.replace('/{}/'.format(OS_PATH), '/resource/')
 
             gml_url = resource_url.replace('/atom', '/gml')
-            gml_uri = '%s?uid=%s' % (gml_url, subresult.meta.id)
+            gml_uri = '%s?uid=%s' % (gml_url, uid)
             entry.append(createLink(gml_uri, 'alternate',
                                     get_mime_type('gml'), atomroot))
 
             json_url = resource_url.replace('atom', 'json')
-            json_uri = '%s?uid=%s' % (json_url, subresult.meta.id)
+            json_uri = '%s?uid=%s' % (json_url, uid)
             entry.append(createLink(json_uri, 'alternate',
                                     get_mime_type('json'), atomroot))
 
@@ -278,7 +279,7 @@ class COSAtomResponse(OSAtomResponse):
         first = True
         params = ""
         for key in context.keys():
-            if context[key] != None:
+            if context[key] is not None:
                 if not first:
                     params = '%s,' % params
                 else:
