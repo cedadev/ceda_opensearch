@@ -5,3 +5,4 @@ python-dateutil==2.6.0
 six==1.10.0
 urllib3==1.20
 https://github.com/cedadev/cedaMarkup/archive/v0.2.0.tar.gz
+certifi==2018.11.29
