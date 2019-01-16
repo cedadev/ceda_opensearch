@@ -47,8 +47,8 @@ setup(
 
     # Adds dependencies
     install_requires=[
-        'Django==1.11',
+        'Django==1.11.18',
         'ceda-markup==0.2.0',
-        'elasticsearch_dsl==2'
+        'elasticsearch_dsl==6.1.0'
     ],
 )
