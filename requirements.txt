@@ -1,8 +1,8 @@
-Django==1.11.18
+Django==1.11.29
 elasticsearch==6.1.1
 elasticsearch-dsl==6.1.0
 python-dateutil==2.6.1
 six==1.11.0
-urllib3==1.23
+urllib3==1.25
 https://github.com/cedadev/cedaMarkup/archive/v0.2.0.tar.gz
 certifi==2018.11.29
