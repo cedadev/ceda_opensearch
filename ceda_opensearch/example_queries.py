@@ -75,14 +75,14 @@ EXAMPLE_PARAMETERS = [
     'platform=landsat-5&startDate=2006-08-10T00:00:00.000Z&endDate=2006-08-2'
     '0T00:00:00.000Z',
     # bbox
-    'platform=landsat-5&bbox=1,1,-90,90',
+    'platform=landsat-5&bbox=1,1,90,-90',
     # poloygon
     'platform=landsat-5&geometry=POLYGON((-95 30,-80 30,-80 10,-95 10,-95 30)'
     ')',
     # multiple ranges
     'platform=landsat-5&startDate=2006-08-10T00:00:00.000Z&endDate=2006-08-20T'
     '00:00:00.000Z&minCloudCoverPercentage=40&maxCloudCoverPercentage=60&bbox='
-    '1,1,-105,90',
+    '1,1,90,-90',
 
     # Landsat 7
     'platform=landsat-7',
@@ -99,14 +99,14 @@ EXAMPLE_PARAMETERS = [
     'platform=landsat-7&startDate=2006-08-10T00:00:00.000Z&endDate=2006-08-2'
     '0T00:00:00.000Z',
     # bbox
-    'platform=landsat-7&bbox=1,1,-90,90',
+    'platform=landsat-7&bbox=1,1,90,-90',
     # poloygon
     'platform=landsat-7&geometry=POLYGON((-95 30,-80 30,-80 10,-95 10,-95 30)'
     ')',
     # multiple ranges
     'platform=landsat-7&startDate=2006-08-10T00:00:00.000Z&endDate=2006-08-20T'
     '00:00:00.000Z&minCloudCoverPercentage=40&maxCloudCoverPercentage=50&bbox='
-    '1,1,-95,90',
+    '1,1,90,-90',
 
     # Landsat 8
     'platform=landsat-8',
@@ -122,14 +122,14 @@ EXAMPLE_PARAMETERS = [
     'platform=landsat-8&startDate=2016-08-10T00:00:00.000Z&endDate=2016-08-2'
     '0T00:00:00.000Z',
     # bbox
-    'platform=landsat-8&bbox=1,1,90,90',
+    'platform=landsat-8&bbox=1,1,90,-90',
     # poloygon
     'platform=landsat-8&geometry=POLYGON((-95 30,-80 30,-80 10,-95 10,-95 30)'
     ')',
     # multiple ranges
     'platform=landsat-8&startDate=2016-08-10T00:00:00.000Z&endDate=2016-08-20T'
     '00:00:00.000Z&minCloudCoverPercentage=40&maxCloudCoverPercentage=50&bbox='
-    '1,1,90,90',
+    '1,1,90,-90',
 
     # Sentinel 1
     'platform=sentinel-1A',
@@ -151,13 +151,13 @@ EXAMPLE_PARAMETERS = [
     'platform=sentinel-1A&startDate=2016-08-10T00:00:00.000Z&endDate=2016-08-2'
     '0T00:00:00.000Z',
     # bbox
-    'platform=sentinel-1A&bbox=1,1,90,90',
+    'platform=sentinel-1A&bbox=1,1,90,-90',
     # poloygon
     'platform=sentinel-1A&geometry=POLYGON((30 10,40 40,20 40,10 20,30 10)(29 '
     '11,29 28,11 21,29 11))',
     # multiple ranges
     'platform=sentinel-1A&startDate=2016-08-10T00:00:00.000Z&endDate=2016-08-2'
-    '0T00:00:00.000Z&bbox=1,1,90,90',
+    '0T00:00:00.000Z&bbox=1,1,90,-90',
     # Sentinel 1 specific
     # polarisation
     'polarisationChannels=VV',
@@ -183,14 +183,14 @@ EXAMPLE_PARAMETERS = [
     'platform=sentinel-2A&startDate=2016-08-10T00:00:00.000Z&endDate=2016-08-2'
     '0T00:00:00.000Z',
     # bbox
-    'platform=sentinel-2A&bbox=1,1,90,90',
+    'platform=sentinel-2A&bbox=1,1,90,-90',
     # poloygon
     'platform=sentinel-2A&geometry=POLYGON((30 10,40 40,20 40,10 20,30 10)(29 '
     '11,29 28,11 21,29 11))',
     # multiple ranges
     'platform=sentinel-2A&startDate=2016-08-10T00:00:00.000Z&endDate=2016-08-2'
     '0T00:00:00.000Z&minCloudCoverPercentage=40&maxCloudCoverPercentage=50&bbo'
-    'x=1,1,90,90',
+    'x=1,1,90,-90',
     # Sentinel 2 specific
     # Cloud
     'platform=sentinel-2A&minCloudCoverPercentage=40',
@@ -218,11 +218,11 @@ EXAMPLE_PARAMETERS = [
     'platform=sentinel-3A&startDate=2016-11-10T00:00:00.000Z&endDate=2016-11-2'
     '0T00:00:00.000Z',
     # bbox
-    'platform=sentinel-3A&bbox=1,1,90,90',
+    'platform=sentinel-3A&bbox=1,1,90,-90',
     # poloygon
     'platform=sentinel-3A&geometry=POLYGON((30 10,40 40,20 40,10 20,30 10)(29 '
     '11,29 28,11 21,29 11))',
     # multiple ranges
     'platform=sentinel-3A&startDate=2016-11-10T00:00:00.000Z&endDate=2016-11-2'
-    '0T00:00:00.000Z&bbox=1,1,90,90',
+    '0T00:00:00.000Z&bbox=1,1,90,-90',
 ]
