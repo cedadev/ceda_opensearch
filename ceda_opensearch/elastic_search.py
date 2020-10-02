@@ -351,7 +351,7 @@ def get_coordinate_list(coordinates):
             long, lat = point.split(" ")
         except ValueError:
             raise Http400("Invalid polygon WKT format")
-        coordinate_list.append([long, lat])
+        coordinate_list.append([float(long), float(lat)])
     return coordinate_list
 
 

@@ -45,7 +45,7 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 
-from django.urls import path
+from django.urls import path, re_path
 from django.contrib import admin
 
 from ceda_opensearch.constants import OS_PATH
@@ -64,14 +64,14 @@ urlpatterns = [
     path('status/', Status.as_view()),
 
     # Resource
-    path('resource/{IFORMATS_RE2}', Resource.as_view(), name='resource'),
+    re_path(r'resource/{IFORMATS_RE2}'.format(IFORMATS_RE2=IFORMATS_RE2), Resource.as_view(), name='resource'),
 
     # Opensearch description
     path(f'{OS_PATH}/description.xml', Description.as_view(),
          name='os_description'),
 
     # Opensearch search
-    path(f'{OS_PATH}/{IFORMATS_RE}', OpenSearch.as_view(), name='os_search'),
+    re_path(r'{OS_PATH}/{IFORMATS_RE}'.format(OS_PATH=OS_PATH, IFORMATS_RE=IFORMATS_RE), OpenSearch.as_view(), name='os_search'),
     path(f'{OS_PATH}/atom', OpenSearch.as_view(), name='os_search_atom'),
 
     # Everything else
