@@ -229,7 +229,7 @@ class Status(TemplateView):
                 key, value = param.split('=')
                 context[key] = value
             try:
-                _, total_hits = (elastic_search.get_search_results(context))
+                _, total_hits, relation = (elastic_search.get_search_results(context))
             except (RequestError) as ex:
                 results.append({'test': example_parameters, 'status': 'ERROR',
                                 'message': ex})
@@ -242,8 +242,8 @@ class Status(TemplateView):
                 return ServiceUnavailable(reason=ex.message)
             if total_hits > 0:
                 results.append({'test': example_parameters, 'status': 'OK',
-                                'message': '{} results found'.
-                                format(total_hits)})
+                                'message': '{} {} results found'.
+                                format(relation, total_hits)})
             else:
                 results.append({'test': example_parameters,
                                 'status': 'WARNING',

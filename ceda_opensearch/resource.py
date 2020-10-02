@@ -74,7 +74,7 @@ def _get_json(request):
     @param request: a HTTP request
 
     """
-    results, _ = get_search_results({'uid': request.GET.get('uid')})
+    results, _, _ = get_search_results({'uid': request.GET.get('uid')})
     try:
         jsondoc = results.pop().to_dict()
     except IndexError:
@@ -92,7 +92,7 @@ def _get_xml(request):
     global next_id, poly_count
     next_id = 0
     poly_count = 10000
-    results, _ = get_search_results({'uid': request.GET.get('uid')})
+    results, _, _ = get_search_results({'uid': request.GET.get('uid')})
     try:
         result = results[0]
     except IndexError:

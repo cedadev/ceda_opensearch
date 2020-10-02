@@ -454,7 +454,7 @@ class COSQuery(OSQuery):
 
         """
         LOGGING.debug("do_search(query, context)")
-        results, total_results = get_search_results(context)
+        results, total_results, relation = get_search_results(context)
         return {'results': results, 'total_count': total_results}
 
     def _get_query_signature(self, params_model):
