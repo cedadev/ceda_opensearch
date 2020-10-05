@@ -32,26 +32,24 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 ceda_opensearch URL Configuration
 
 The `urlpatterns` list routes URLs to views. For more information please see:
-    https://docs.djangoproject.com/en/1.9/topics/http/urls/
+    https://docs.djangoproject.com/en/2.2/topics/http/urls/
 Examples:
 Function views
     1. Add an import:  from my_app import views
-    2. Add a URL to urlpatterns:  url(r'^$', views.home, name='home')
+    2. Add a URL to urlpatterns:  path('', views.home, name='home')
 Class-based views
     1. Add an import:  from other_app.views import Home
-    2. Add a URL to urlpatterns:  url(r'^$', Home.as_view(), name='home')
+    2. Add a URL to urlpatterns:  path('', Home.as_view(), name='home')
 Including another URLconf
     1. Import the include() function: from django.conf.urls import url, include
-    2. Add a URL to urlpatterns:  url(r'^blog/', include('blog.urls'))
+    2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 
-from django.conf.urls import url
+from django.urls import path, re_path
 from django.contrib import admin
 
 from ceda_opensearch.constants import OS_PATH
-from ceda_opensearch.views import Description, OpenSearch, Index, Resource, \
-    Status
-
+from ceda_opensearch.views import Description, OpenSearch, Index, Resource, Status
 
 IFORMAT = ["atom", "json"]
 IFORMATS_RE = '(' + '|'.join(IFORMAT) + ')'
@@ -60,25 +58,22 @@ IFORMAT2 = ["gml", "json", "xml"]
 IFORMATS_RE2 = '(' + '|'.join(IFORMAT2) + ')'
 
 urlpatterns = [
-    url(r'^admin/', admin.site.urls),
+    path('admin/', admin.site.urls),
 
     # status
-    url(r'^status/$', Status.as_view()),
+    path('status/', Status.as_view()),
 
     # Resource
-    url(r'resource/%s$' %
-        (IFORMATS_RE2), Resource.as_view(), name='resource'),
+    re_path(r'resource/{IFORMATS_RE2}'.format(IFORMATS_RE2=IFORMATS_RE2), Resource.as_view(), name='resource'),
 
     # Opensearch description
-    url(r'^%s/description.xml$' % OS_PATH, Description.as_view(),
-        name='os_description'),
+    path(f'{OS_PATH}/description.xml', Description.as_view(),
+         name='os_description'),
+
     # Opensearch search
-    url(r'^%s/%s$' %
-        (OS_PATH, IFORMATS_RE), OpenSearch.as_view(), name='os_search'),
-    url(r'^%s/atom$' %
-        (OS_PATH), OpenSearch.as_view(), name='os_search_atom'),
+    re_path(r'{OS_PATH}/{IFORMATS_RE}'.format(OS_PATH=OS_PATH, IFORMATS_RE=IFORMATS_RE), OpenSearch.as_view(), name='os_search'),
+    path(f'{OS_PATH}/atom', OpenSearch.as_view(), name='os_search_atom'),
 
     # Everything else
-    url(r'^', Index.as_view(),
-        name='index'),
+    path('', Index.as_view(), name='index'),
 ]

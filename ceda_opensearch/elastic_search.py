@@ -74,7 +74,9 @@ def get_search_results(context):
     defaults from the OSQuery. This only contains parameters for registered
     OSParams.
 
-    @return a tuple containing an attribute list and a count of total results.
+    @return a tuple containing an attribute list, a count of total results, and results relation.
+    The relation is needed because elasticsearch does not calculate the true count if there are
+    > 10k results.
 
     """
     LOGGING.debug("get_search_results(context)")
@@ -135,9 +137,10 @@ def get_search_results(context):
                       "service. {}".format(ex))
         raise (ex)
 
-    LOGGING.debug("get_search_results returning %s hits out of %s",
-                  len(response.hits), response.hits.total)
-    return tuple([response.hits, response.hits.total])
+    LOGGING.debug("get_search_results returning %s hits out of %s (%s)",
+                  len(response.hits), response.hits.total.value, response.hits.total.relation)
+
+    return response.hits, response.hits.total.value, {'gte':'>=', 'lte': '<='}.get(response.hits.total.relation, '')
 
 
 def _get_offset(count, index, page):
@@ -348,7 +351,7 @@ def get_coordinate_list(coordinates):
             long, lat = point.split(" ")
         except ValueError:
             raise Http400("Invalid polygon WKT format")
-        coordinate_list.append([long, lat])
+        coordinate_list.append([float(long), float(lat)])
     return coordinate_list
 
 

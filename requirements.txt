@@ -1,11 +1,12 @@
-ceda-markup==0.2.0
-certifi==2018.11.29
-Django==1.11.29
-elasticsearch==6.1.1
-elasticsearch-dsl==6.1.0
+git+https://github.com/cedadev/cedaMarkup#egg=ceda-markup
+certifi==2020.6.20
+Django==2.2.16
+elasticsearch==7.9.1
+elasticsearch-dsl==7.3.0
 ipaddress==1.0.23
 python-dateutil==2.6.1
 pytz==2020.1
 six==1.11.0
+sqlparse==0.3.1
 urllib3==1.25
 waitress==1.4.4
